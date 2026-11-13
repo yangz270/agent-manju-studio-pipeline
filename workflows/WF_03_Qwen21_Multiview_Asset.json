@@ -1,0 +1,91 @@
+{
+  "1": {
+    "inputs": {
+      "model_name": "qwen_image_2.1_bf16.safetensors"
+    },
+    "class_type": "QwenImageModelLoader",
+    "_meta": {
+      "title": "【Qwen-Image 2.1 主模型】"
+    }
+  },
+  "2": {
+    "inputs": {
+      "image": "Char_Base_White_Krea2_00001_.png",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "【输入图1: Krea2 白底全身立绘】"
+    }
+  },
+  "3": {
+    "inputs": {
+      "image": "white_model_4grid_template.png",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "【输入图2: 四宫格/三视图排版白膜】"
+    }
+  },
+  "4": {
+    "inputs": {
+      "text": "Keep the exact facial features, hairstyle, patched grey hemp clothing, and straw sandals of the character in image1 completely unchanged. Generate standard 4-panel multi-view character asset sheet following the layout in image2: top-left front closeup, top-right 45-degree side closeup, bottom-left back view, bottom-right full body with face blurred."
+    },
+    "class_type": "QwenImageMultiImagePromptEncode",
+    "_meta": {
+      "title": "【多图指令编码器 (统管多图引用)】"
+    }
+  },
+  "5": {
+    "inputs": {
+      "enabled": true
+    },
+    "class_type": "QwenImageCacheNode",
+    "_meta": {
+      "title": "【千问缓存节点 (缓解显存防爆)】"
+    }
+  },
+  "6": {
+    "inputs": {
+      "seed": 99881122,
+      "steps": 28,
+      "cfg": 1.0,
+      "sampler_name": "euler",
+      "scheduler": "beta",
+      "model": [
+        "1",
+        0
+      ],
+      "prompt_embeds": [
+        "4",
+        0
+      ],
+      "image1": [
+        "2",
+        0
+      ],
+      "image2": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "QwenImageSampler",
+    "_meta": {
+      "title": "【Qwen 2.1 高精编辑采样 (不开加速保细节)】"
+    }
+  },
+  "7": {
+    "inputs": {
+      "filename_prefix": "Char_Asset_4Grid_Qwen21",
+      "images": [
+        "6",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "【角色资产四宫格最终落盘】"
+    }
+  }
+}

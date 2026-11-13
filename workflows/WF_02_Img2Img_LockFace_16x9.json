@@ -1,0 +1,122 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "revAnimated_v122.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "底模加载舱"
+    }
+  },
+  "2": {
+    "inputs": {
+      "image": "protagonist_front.png",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "定妆底片加载舱"
+    }
+  },
+  "3": {
+    "inputs": {
+      "pixels": [
+        "2",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "定妆图潜空间编码"
+    }
+  },
+  "4": {
+    "inputs": {
+      "text": "3d donghua style, 1boy, firm jaw, sliding back on dirt ground, 16:9",
+      "clip": [
+        "1",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "正向词编码"
+    }
+  },
+  "5": {
+    "inputs": {
+      "text": "(worst quality:1.4), bad anatomy, extra limbs, deformed face",
+      "clip": [
+        "1",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "负向词编码"
+    }
+  },
+  "6": {
+    "inputs": {
+      "seed": 987654321,
+      "steps": 22,
+      "cfg": 7.0,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 0.4,
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "4",
+        0
+      ],
+      "negative": [
+        "5",
+        0
+      ],
+      "latent_image": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "版型锁定采样器(Denoise=0.4锁五官)"
+    }
+  },
+  "7": {
+    "inputs": {
+      "samples": [
+        "6",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE解码舱"
+    }
+  },
+  "8": {
+    "inputs": {
+      "filename_prefix": "AI_Drama_16x9_Img2Img_Locked",
+      "images": [
+        "7",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "落盘舱"
+    }
+  }
+}

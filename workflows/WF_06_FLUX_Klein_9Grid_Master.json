@@ -1,0 +1,115 @@
+{
+  "1": {
+    "inputs": {
+      "unet_name": "flux1-dev-fp8.safetensors",
+      "weight_dtype": "fp8_e4m3fn"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "【FLUX-Klein 模型加载舱 (FP8/NF4低显存兼容)】"
+    }
+  },
+  "2": {
+    "inputs": {
+      "clip_name1": "t5xxl_fp8_e4m3fn.safetensors",
+      "clip_name2": "clip_l.safetensors",
+      "type": "flux"
+    },
+    "class_type": "DualCLIPLoader",
+    "_meta": {
+      "title": "【FLUX 双文本编码器 (T5-XXL + CLIP-L)】"
+    }
+  },
+  "3": {
+    "inputs": {
+      "vae_name": "ae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "【FLUX 原生 VAE 加载舱】"
+    }
+  },
+  "4": {
+    "inputs": {
+      "text": "9-grid comic contact sheet, 3x3 grid layout, sequential film contact sheet, consistent character identity and outfit throughout. Panel 1 (Top-Left): Cold alleyway establishing shot with dreary winter mist | Panel 2 (Top-Center): Protagonist lean silhouette turning sharply | Panel 3 (Top-Right): Sudden ominous figure shadow descending from roof | Panel 4 (Mid-Left): Extreme close-up of vigilant obsidian eyes | Panel 5 (Mid-Center): Hand swiftly gripping wooden bamboo hairpin weapon | Panel 6 (Mid-Right): Opponent haughty mocking sneer in mid-shot | Panel 7 (Bottom-Left): Straw sandals skidding across slushy soil | Panel 8 (Bottom-Center): Sparks flying as two spiritual forces clash | Panel 9 (Bottom-Right): Cliffhanger freeze-frame, panting breath visible in freezing air. Cinematic 16:9 widescreen composition, professional movie lighting, masterwork, 8k",
+      "clip": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "【FLUX-Klein 九宫格剧情推演提示词】"
+    }
+  },
+  "5": {
+    "inputs": {
+      "width": 1536,
+      "height": 1536,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "【九宫格大潜空间 (1536x1536)】"
+    }
+  },
+  "6": {
+    "inputs": {
+      "seed": 99887766,
+      "steps": 24,
+      "cfg": 3.5,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1.0,
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "4",
+        0
+      ],
+      "negative": [
+        "4",
+        0
+      ],
+      "latent_image": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "【FLUX-Klein 全局注意力采样 (9镜面部零漂移)】"
+    }
+  },
+  "7": {
+    "inputs": {
+      "samples": [
+        "6",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "【九宫格母图 VAE 解码】"
+    }
+  },
+  "8": {
+    "inputs": {
+      "filename_prefix": "AI_Drama_FLUX_Klein_9Grid_Master",
+      "images": [
+        "7",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "【保存 FLUX 九宫格母图】"
+    }
+  }
+}

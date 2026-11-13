@@ -1,0 +1,91 @@
+{
+  "1": {
+    "inputs": {
+      "unet_name": "ltx23_distill_fp8.safetensors"
+    },
+    "class_type": "UNETLoader"
+  },
+  "2": {
+    "inputs": {
+      "clip_name1": "gemma_3_32b_fp8.safetensors",
+      "clip_name2": "ltx23_text_proj.safetensors"
+    },
+    "class_type": "DualCLIPLoader"
+  },
+  "3": {
+    "inputs": {
+      "vae_name": "ltx23_video_vae.safetensors"
+    },
+    "class_type": "VAELoader"
+  },
+  "4": {
+    "inputs": {
+      "vae_name": "ltx23_audio_vae.safetensors"
+    },
+    "class_type": "VAELoader"
+  },
+  "5": {
+    "inputs": {
+      "lora_name": "remove_subtitles.safetensors",
+      "strength": 0.7,
+      "model": [
+        "1",
+        0
+      ]
+    },
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "【去字幕/水印 LoRA】"
+    }
+  },
+  "6": {
+    "inputs": {
+      "timeline_prompt": "Segment 1 (0-3s): Close-up on protagonist jaw tensing. Segment 2 (3-6s): Pan to adversary sneering.",
+      "total_duration": 6.0,
+      "fps": 24,
+      "scale_by": 0.5
+    },
+    "class_type": "LTXDirector",
+    "_meta": {
+      "title": "【LTX Director 导演台】"
+    }
+  },
+  "7": {
+    "inputs": {
+      "model": [
+        "5",
+        0
+      ],
+      "director": [
+        "6",
+        0
+      ],
+      "steps": 6,
+      "cfg": 1.0
+    },
+    "class_type": "LTXSampler",
+    "_meta": {
+      "title": "【两阶段采样】"
+    }
+  },
+  "8": {
+    "inputs": {
+      "samples": [
+        "7",
+        0
+      ],
+      "video_vae": [
+        "3",
+        0
+      ],
+      "audio_vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "LTXCreateVideo",
+    "_meta": {
+      "title": "【LTX 成片输出】"
+    }
+  }
+}

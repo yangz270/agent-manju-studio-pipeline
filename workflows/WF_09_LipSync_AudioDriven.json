@@ -1,0 +1,77 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "shot_keyframe_1080p.png"
+    }
+  },
+  "2": {
+    "class_type": "LoadAudio",
+    "inputs": {
+      "audio": "shot_dialogue_48k.wav"
+    }
+  },
+  "3": {
+    "class_type": "ImageCrop",
+    "inputs": {
+      "image": [
+        "1",
+        0
+      ],
+      "width": 640,
+      "height": 640,
+      "x": 640,
+      "y": 80
+    }
+  },
+  "4": {
+    "class_type": "Wav2Lip",
+    "inputs": {
+      "images": [
+        "3",
+        0
+      ],
+      "audio": [
+        "2",
+        0
+      ],
+      "mode": "repetitive",
+      "face_detect_batch": 8
+    }
+  },
+  "5": {
+    "class_type": "ImageCompositeMasked",
+    "inputs": {
+      "destination": [
+        "1",
+        0
+      ],
+      "source": [
+        "4",
+        0
+      ],
+      "x": 640,
+      "y": 80,
+      "resize_source": false
+    }
+  },
+  "6": {
+    "class_type": "VHS_VideoCombine",
+    "inputs": {
+      "images": [
+        "5",
+        0
+      ],
+      "audio": [
+        "4",
+        1
+      ],
+      "frame_rate": 24,
+      "loop_count": 0,
+      "filename_prefix": "TierA_CroppedFace_Wav2Lip_LipSync",
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "save_output": true
+    }
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "1": {
+    "inputs": {
+      "unet_name": "krea2_turbo_12g.safetensors",
+      "weight_dtype": "fp8_e4m3fn"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "【Krea2 UNET 加载舱】"
+    }
+  },
+  "2": {
+    "inputs": {
+      "clip_name": "qwen3_vl_4b_instruct.safetensors",
+      "type": "c2"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "【Qwen3-VL CLIP 加载舱 (Type=C2)】"
+    }
+  },
+  "3": {
+    "inputs": {
+      "vae_name": "krea2_vae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "【Krea2 专用 VAE】"
+    }
+  },
+  "4": {
+    "inputs": {
+      "text": "1boy, 16 years old, messy black hair tied in topknot, piercing dark eyes, patched coarse grey hemp sleeveless tunic, straw sandals, pure white background, full body standing front view, looking directly at camera, 8k",
+      "clip": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "【白底全身正面直视提示词】"
+    }
+  },
+  "5": {
+    "inputs": {
+      "conditioning": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "【条件零化 (2026标准负向占位)】"
+    }
+  },
+  "6": {
+    "inputs": {
+      "width": 768,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "【立绘潜空间】"
+    }
+  },
+  "7": {
+    "inputs": {
+      "seed": 55667788,
+      "steps": 8,
+      "cfg": 1.0,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 1.0,
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "4",
+        0
+      ],
+      "negative": [
+        "5",
+        0
+      ],
+      "latent_image": [
+        "6",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "【Krea2 极速采样 (CFG=1, Steps=8)】"
+    }
+  },
+  "8": {
+    "inputs": {
+      "samples": [
+        "7",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "【VAE 解码】"
+    }
+  },
+  "9": {
+    "inputs": {
+      "filename_prefix": "Char_Base_White_Krea2",
+      "images": [
+        "8",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "【角色基底立绘落盘】"
+    }
+  }
+}

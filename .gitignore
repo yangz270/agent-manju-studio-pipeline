@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+dist/
+*.egg-info/
+
+# Secrets & Environment Variables (NEVER COMMIT)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Local Data & Media Output
+workspace*/
+output/
+clips/
+keyframes/
+memories/
+*.mp4
+*.wav
+*.png
+*.jpg
+*.jpeg
+*.db
+*.sqlite*
+*.log
+JianYing_Drafts/
+*.zip
+
+# IDE / OS Specific
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+

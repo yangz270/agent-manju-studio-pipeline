@@ -1,0 +1,101 @@
+{
+  "1": {
+    "inputs": {
+      "model_name": "moss_image_5b_sft.safetensors",
+      "precision": "fp8_e4m3fn"
+    },
+    "class_type": "MOSSImageModelLoader",
+    "_meta": {
+      "title": "【MOSS-Image 5B 核心模型加载舱 (DiT 5B架构)】"
+    }
+  },
+  "2": {
+    "inputs": {
+      "clip_name": "qwen_3.5_9b_clip.safetensors"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "【Qwen 3.5 9B 文本编码器 (支持超长4096 Tokens)】"
+    }
+  },
+  "3": {
+    "inputs": {
+      "layout_json": "{\"scene_description\": \"ancient impoverished alley courtyard under dreary winter snowfall\", \"bboxes\": [{\"box\": [120, 80, 400, 360], \"label\": \"16yo lean boy Chen Ping'an in rough hemp vest sliding back defensively, facing right\"}, {\"box\": [100, 480, 380, 720], \"label\": \"19yo aristocratic young man Song Jixin standing on stone steps in silk robes looking down mockingly, facing left\"}, {\"box\": [20, 20, 200, 740], \"label\": \"weathered cracked clay courtyard wall with ancient moss and peeling mud\"}]}",
+      "clip": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "MOSSImageLayoutEncode",
+    "_meta": {
+      "title": "【MOSS-Image 结构化 BBox 几何布局编码舱】"
+    }
+  },
+  "4": {
+    "inputs": {
+      "width": 1366,
+      "height": 768,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "【16:9 横屏空潜空间 (1366x768 8像素步进)】"
+    }
+  },
+  "5": {
+    "inputs": {
+      "seed": 77665544,
+      "steps": 28,
+      "cfg": 4.0,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0,
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "3",
+        0
+      ],
+      "negative": [
+        "3",
+        1
+      ],
+      "latent_image": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "【MOSS-Image 绝对坐标约束采样器】"
+    }
+  },
+  "6": {
+    "inputs": {
+      "samples": [
+        "5",
+        0
+      ],
+      "vae_name": "moss_vae.safetensors"
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "【MOSS 原生 VAE 解码】"
+    }
+  },
+  "7": {
+    "inputs": {
+      "filename_prefix": "AI_Drama_MOSS_BBox_Master",
+      "images": [
+        "6",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "【保存 MOSS 精准构图成片】"
+    }
+  }
+}
