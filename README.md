@@ -79,8 +79,8 @@ python scripts/preflight_check.py
 
 ### 1. 克隆仓库与安装依赖
 ```bash
-git clone https://github.com/yangz270/agent漫剧-studio-pipeline.git
-cd agent漫剧-studio-pipeline
+git clone https://github.com/yangz270/agent-manju-studio-pipeline.git
+cd agent-manju-studio-pipeline
 pip install -r requirements.txt
 ```
 
